@@ -1,0 +1,77 @@
+syntax = "proto3";
+
+service ViewService {
+    rpc StaticView(Empty) returns (gRPCView) {}
+    rpc ListView(Empty) returns (gRPCView) {}
+    rpc Test(Empty) returns (Empty) {}
+
+    rpc ToDoListView(Empty) returns (gRPCView) {}
+    rpc ToDoView(TodoID) returns (gRPCView) {}
+    rpc CreateToDo(Todo) returns (gRPCView) {}
+    rpc DeleteTodo (TodoID) returns (gRPCView) {}
+}
+
+// TODO
+message TodoList {
+    repeated Todo todos = 1;
+}
+
+message TodoID {
+    string todoID = 1;
+}
+
+message Todo {
+    string todoID = 1;
+    string title = 2;
+    bool completed = 3;
+}
+
+// VIEW
+message gRPCView {
+    string viewName = 1;
+    string type = 2;
+    optional Properties properties = 3;
+    optional Values values = 4;
+    optional Operation operation = 5;
+    repeated gRPCView subviews = 6;
+}
+
+message Empty {}
+
+message Properties {
+    optional string font = 1;
+    optional string fontWeight = 2;
+    optional string foregroundColor = 3;
+    optional string borderColor = 4;
+    optional int32 borderWidth = 5;
+    optional int32 padding = 6;
+    optional int32 spacing = 7;
+    optional float width = 8;
+    optional float height = 9;
+    optional float minLength = 10;
+
+    // leading, center, trailing
+    optional string horizontalAlignment = 11;
+
+    // top, bottom, center, firstTextBaseline, lastTextBaseline
+    optional string verticalAlignment = 12;
+
+    // vertical, horizontal (for ScrollView)
+    optional string axis = 13;
+    optional bool showsIndicators = 14;
+}
+
+message Values {
+    optional string text = 1;
+    optional string imageUrl = 2;
+    optional string systemIconName = 3;
+    optional string localImageName = 4;
+
+//    optional string jsCode = 5;
+}
+
+message Operation {
+    optional string type = 1;
+    optional string viewName = 2;
+    optional string universalLink = 3;
+}
